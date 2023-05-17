@@ -4,6 +4,30 @@ const _ = require('lodash');
 const { shape } = require('@sleeksky/alt-schema');
 const { getImg } = require('./helpers');
 
+const dfsMockJson = (json) => {
+    function traverse(obj) {
+        if (obj === undefined) return 'undefined';
+        if (obj === null) return null;
+        if (typeof obj === 'string') return faker.lorem.words(3);
+        if (typeof obj === 'number') return _.random(0, 100);
+        if (typeof obj === 'boolean') return _.random(0, 1) === 1;
+        if (Array.isArray(obj)) {
+            for (let i in obj) {
+                obj[i] = traverse(obj[i]);
+            }
+            return obj;
+        }
+        if (typeof obj === 'object') {
+            for (let key in obj) {
+                obj[key] = traverse(obj[key]);
+            }
+            return obj;
+        }
+        return obj;
+    }
+    return traverse(json);
+}
+
 const getMockValue = ({field, env}) => {
     let type = field.type;
     if (type === 'singleline') {

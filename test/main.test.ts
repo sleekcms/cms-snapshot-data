@@ -1,4 +1,4 @@
-import { getPayload, getMockPayload } from '../src';
+import { getPayload } from '../src';
 import * as jsonfile from 'jsonfile';
 
 describe('getPayload', () => {
@@ -6,7 +6,7 @@ describe('getPayload', () => {
         let snapshot: any = jsonfile.readFileSync('./test/snapshots/snapshot-95-r-13.json');
         console.log('snapshot', snapshot.recs.length);
         const label = 'test';
-        const payload = getPayload(snapshot, label);
+        const payload = getPayload({snapshot, labl: label, env: 'development'});
         expect(payload).toEqual({});
     });
 });
