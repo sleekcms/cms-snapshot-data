@@ -2,4 +2,3 @@ node_modules
 dist
 esm
 .DS_Store
-test/snapshots/*

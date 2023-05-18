@@ -4,9 +4,9 @@ import * as jsonfile from 'jsonfile';
 describe('getPayload', () => {
     test('should return an object', () => {
         let snapshot: any = jsonfile.readFileSync('./test/snapshots/snapshot-95-r-13.json');
-        console.log('snapshot', snapshot.recs.length);
         const label = 'test';
         const payload = getPayload({snapshot, labl: label, env: 'development'});
+        console.log('payload', payload);
         expect(payload).toEqual({});
     });
 });
