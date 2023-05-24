@@ -1,13 +1,12 @@
 {
-  "name": "cms-snapshot-data",
-  "version": "1.0.0",
+  "name": "@sleekcms/cms-snapshot-data",
+  "version": "1.0.1",
   "description": "SleekCMS Snapshot Data",
   "main": "dist/index.js",
   "module": "esm/index.js",
   "files": [
     "dist",
-    "esm",
-    "src"
+    "esm"
   ],
   "repository": {
     "type": "git",
