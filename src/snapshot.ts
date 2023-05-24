@@ -5,6 +5,11 @@ const { getMockValue } = require("./mockshot");
 const { getImg } = require("./helpers");
 const { marked } = require('marked');
 
+marked.setOptions({
+  headerIds: false,
+  mangle : false,
+});
+
 function toTree(data:INode[]) {
   // data = [{id,children:[{id}]}]
   // response = [{id, children:[{id, children}]}]
@@ -138,7 +143,9 @@ class Snap {
     }
     if (type === "markdown") {
       if (field.multiple) return getMultiple(values).map(v => marked.parse(v));
-      else return marked.parse(getOne(values));
+      else {
+        return marked.parse(getOne(values) || '');
+      } 
     }
     if (type === "json") {
       if (field.multiple) {
