@@ -1,15 +1,6 @@
-import { Image, ImageAttr } from "./types";
-
 const ENV = require('./env');
 
-interface GetImg {
-    env : string
-    site_id : number
-    img : Image
-    attr : ImageAttr
-}
-
-const getImgUrl = ({env, site_id, img, attr}:GetImg) => {
+const getImgUrl = ({env, site_id, img, attr}) => {
     let source = (img && img.source) ? img.source : 'sleekcms';
     if (!['sleekcms', 'unsplash'].includes(source)) source = 'sleekcms';
     if (source === 'sleekcms') {
@@ -29,19 +20,19 @@ const getImgUrl = ({env, site_id, img, attr}:GetImg) => {
         if (query.length > 0) url += '?' + query.join('&');
         return url;    
     } else if (source === 'unsplash') {
-        let url = new URL(img.path ?? '');
+        let url = new URL(img.path);
         let fit = attr.fit || 'crop';
         if (fit === 'cover') fit = 'crop';
-        if (attr.w) url.searchParams.set('w', `${attr.w}`);
-        if (attr.h) url.searchParams.set('h', `${attr.h}`);
+        if (attr.w) url.searchParams.set('w', attr.w);
+        if (attr.h) url.searchParams.set('h', attr.h);
         if (attr.w || attr.h) url.searchParams.set('fit', fit);
         return url.href;
     }
 }
 
-const getImg = ({env, site_id, img, attr}:GetImg) => {
-    let obj:any = {attribution: {name: null, url: null}, blur_hash: null, description: '', url : ''}
-    obj.url = getImgUrl({env, site_id, img, attr}) ?? '';
+const getImg = ({env, site_id, img, attr}) => {
+    let obj = {attribution: {name: null, url: null}, blur_hash: null, description: ''}
+    obj.url = getImgUrl({env, site_id, img, attr});
     if (img) {
         obj.attribution.name = img.attr_name
         obj.attribution.url = img.attr_url
@@ -51,7 +42,7 @@ const getImg = ({env, site_id, img, attr}:GetImg) => {
      return obj;
 }
 
-const getBackendUrl = (env:string) => {
+const getBackendUrl = (env) => {
     if (env === 'production') return ENV.PRODUCTION_BACKEND_URL;
     else if (env === 'staging') return ENV.STAGING_BACKEND_URL;
     else if (process.env['BACKEND_URL']) return process.env['BACKEND_URL'];
@@ -59,7 +50,7 @@ const getBackendUrl = (env:string) => {
     else throw new Error('E70: ENV not set');
 }
 
-const getDataCdnUrl = (env:string) => {
+const getDataCdnUrl = (env) => {
     if (env === 'production') return ENV.PRODUCTION_DATA_CDN;
     else if (env === 'staging') return ENV.STAGING_DATA_CDN;
     else if (process.env['DATA_CDN']) return process.env['DATA_CDN'];
@@ -67,7 +58,7 @@ const getDataCdnUrl = (env:string) => {
     else throw new Error('E71: ENV not set');
 }
 
-const getAppSecret = (env:string) => {
+const getAppSecret = (env) => {
     if (env === 'production') return ENV.PRODUCTION_APP_SECRET;
     else if (env === 'staging') return ENV.STAGING_APP_SECRET;
     else if (process.env['APP_SECRET']) return process.env['APP_SECRET'];
