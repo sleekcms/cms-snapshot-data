@@ -1,3 +1,5 @@
+import { Payload } from "./types";
+
 const { Snap } = require("./snapshot");
 
 type GetPayloadAttr = {
@@ -7,6 +9,7 @@ type GetPayloadAttr = {
 };
 
 export const getPayload = ({ snapshot, labl, env }: GetPayloadAttr) => {
-  let snap = new Snap({ snapshot, mock: false, env: "development" });
-  return snap.getSiteData(labl);
+  let snap = new Snap({ snapshot, mock: true, env: "development" });
+  const payload : Payload = snap.getSiteData(labl);
+  return payload
 };

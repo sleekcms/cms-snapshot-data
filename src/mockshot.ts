@@ -1,11 +1,13 @@
+import { Field, IRecord, Snapshot } from "./types";
+
 const randexp = require('randexp').randexp;
 const { faker } = require('@faker-js/faker');
 const _ = require('lodash');
 const { shape } = require('@sleeksky/alt-schema');
 const { getImg } = require('./helpers');
 
-const dfsMockJson = (json) => {
-    function traverse(obj) {
+const dfsMockJson = (json:any) => {
+    function traverse(obj:any) {
         if (obj === undefined) return 'undefined';
         if (obj === null) return null;
         if (typeof obj === 'string') return faker.lorem.words(3);
@@ -28,8 +30,8 @@ const dfsMockJson = (json) => {
     return traverse(json);
 }
 
-const getMockValue = ({field, env}) => {
-    let type = field.type;
+const getMockValue = ({field, env}: {field : Field, env : string}) => {
+    const type = field.type;
     if (type === 'singleline') {
         let { len, rx } = field.attr;
         if (rx) return randexp(new RegExp(rx));
@@ -62,10 +64,12 @@ const getMockValue = ({field, env}) => {
         return {};
     }
     if (type === 'select') {
-        let { options, multiple } = field.attr;
+        const { options } = field.attr;
+        const { multiple } = field;
+
         if (options) {
-            options = options.map(o => o[1]);
-            let size = multiple ? _.random(1, options.length) : 1;
+            const option:string[] = options.map((o:string[]) => o[1]);
+            const size:number = multiple ? _.random(1, option.length) : 1;
             return _.sampleSize(options, size);
         }
         return [];
@@ -76,8 +80,8 @@ const getMockValue = ({field, env}) => {
     return "hello";
 }
 
-const mockify = (snapshot) => {
-    let recs = [];
+const mockify = (snapshot:Snapshot) => {
+    const recs: any= [];
     for (let schema of snapshot.schemas) {
         let count = schema.is_list ? 5 : 1;
         for (let i = 0; i < count; i++) {

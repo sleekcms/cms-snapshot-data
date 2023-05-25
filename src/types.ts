@@ -1,6 +1,12 @@
 export type Child = { id: number; handle: string };
 
 export type RecordValues = string[] | boolean[] | number[];
+
+export type ImageAttr = {
+  w: number | null
+  h: number  | null
+  fit: string | null
+}
 export type INode = {
   id: number;
   handle: string;
@@ -116,4 +122,5 @@ export type Snapshot = {
   site: Site;
 };
 
+export type Payload = Record<string, any>
 export type Schemas = Record<string, Schema>;
