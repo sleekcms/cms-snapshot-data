@@ -130,7 +130,7 @@ class Snap {
     }
     if (type === "markdown") {
       if (field.multiple) return getMultiple(value).map(v => marked.parse(v));
-      else return marked.parse(getOne(value));
+      else return marked.parse(getOne(value) || '');
     }
     if (type === "json") {
       if (field.multiple) return getMultiple(value).map(v => safeJsonParse(v));
