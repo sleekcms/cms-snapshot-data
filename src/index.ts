@@ -8,8 +8,12 @@ type GetPayloadAttr = {
   env?: string;
 };
 
-export const getPayload = ({ snapshot, labl, env }: GetPayloadAttr) => {
+const getPayload = ({ snapshot, labl, env }: GetPayloadAttr) => {
   let snap = new Snap({ snapshot, mock: true, env: "development" });
   const payload : Payload = snap.getSiteData(labl);
   return payload
 };
+
+exports = module.exports = { getPayload }
+
+export { getPayload }
